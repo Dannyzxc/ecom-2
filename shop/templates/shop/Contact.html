@@ -1,0 +1,92 @@
+<!--           about              -->
+
+{% extends 'shop/basic.html' %} {% block title %} contact {% endblock %}
+
+
+<!-- ---------css        -->
+{% block css %}
+<style>
+   .container-c {
+width:100%;
+    height: fit-content;
+    
+  }
+  .baxa {
+    width: 80%;
+    
+    /* height: fit-content; */
+    margin-left: 10%;
+    margin-top: 100px;
+    /* margin-right: -19%; */
+    border: 5px solid gray;
+    padding: 20px 20px;
+  }
+  .baxa input,textarea{
+    margin:10px 0 ;
+  }
+
+  @media (min-width: 700px)
+.container, .container-lg, .container-md, .container-sm {
+    max-width: 960px;
+}
+</style>
+
+<!--      css /////////////////////////////////  -->
+
+{% endblock %}
+<!-- ---------------------------------------------------- -->
+{% block body %}
+
+<div class="container-c">
+  <form action="/shop/Contact/" method="post" class="baxa">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name"> Name :</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        name="name"
+        placeholder="name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="name"> Email Address :</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        name="email"
+        placeholder="name@example.com"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="name">phone :</label>
+      <input
+        type="tel"
+        name="phone"
+        id="phone"
+        class="form-control"
+        placeholder="phone num."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="desc"> massage :</label>
+      <textarea id="desc" name="desc" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button class="btn btn-success" type="submit">Submit</button>
+  </form>
+</div>
+
+{% endblock %}
+{% block js %}
+<script>
+{% if thank %}
+ alert("Your form has been submited");
+ document.location="/shop";
+ {% endif %}
+</script>
+{% endblock %}

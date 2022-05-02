@@ -1,0 +1,124 @@
+<!--           checkout              -->
+
+{% extends 'shop/basic.html' %}
+
+{% block title %} Status {% endblock %}
+{% block css %}
+.track {
+      width: 22%;
+    margin-left: 39%;
+    font-size: 20px;
+}
+{% endblock %}
+{% block body %}
+<!--             form          -->
+<div class="container">
+  <main class="mains">
+    <div class="py-5 text-center">
+
+        <h4 class="mb-3">Track your order</h4>
+
+         <form class="" novalidate method="post" action="#" id="trackerForm"> {% csrf_token %}
+          <div class="row g-3">
+
+            <div class="col-sm-6">
+                  <label for="orderId" class="form-label">Order ID</label>
+                  <input type="text" class="form-control" id="orderId" name="orderId"  required>
+                      <div class="invalid-feedback">
+                        Valid ID is required.
+                      </div>
+            </div>
+
+              <div class="col-sm-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+        <button class="btn btn-primary btn-lg track"  type="submit">Track order</button>
+          </div>
+</form>
+</div>
+
+      <div class="col my-4 text-center">
+      <h5>Your order status</h5>
+          <div class="my-4">
+                <ul class="list-group" id="items"> order status</ul>
+          </div>
+      </div>
+
+      <div class="col my-4 text-center">
+      <h5>Your order details</h5>
+          <div class="my-4">
+                <ul class="list-group" id="citems"> order details</ul>
+          </div>
+      </div>
+  </main>
+</div>
+
+
+{% endblock %}
+{% block js %}
+
+    <script>
+$('#trackerForm').submit(function(event){
+    $('#items').empty();
+    var formData = {
+        'orderId': $('input[name=orderId]').val(),
+        'email':$('input[name=email]').va(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
+    $.ajax({
+        type:'POST',
+        url:'/shop/Status/',
+        data:formData,
+        encode:true
+        })
+
+        .done(function(data){
+            console.log(data)
+            data = JSON.parse(data);
+            updates = data[0];
+            if (updates.length> 0 & updates!={}){
+
+            for (i=0; i < updates.length; i++) {
+            let text = updates[i]['text'];
+            let time = updates[i]['time'];
+
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+              <h6 class="my-0">${text}</h6>
+            <span class="text-muted">${time}</span>
+          </li>`
+$('#items').append(mystr);
+}
+}
+else{
+mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+              <h6 class="my-0">sorry</h6>
+            <span class="text-muted">${time}</span>
+          </li>`
+$('#items').append(mystr);
+}
+
+cart =JSON.parse(data[1]);
+console.log(cart);
+for(item in cart){
+let name = cart[item][1];
+let qty = cart[item][0];
+
+mystr = `<li class="list-group-item d-flex justify-content-between lh-sm">
+              <h6 class="my-0">${name}</h6>
+            <span class="text-muted">${qty}</span>
+          </li>`
+$('#citems').append(mystr);
+}
+        });
+
+        event.preventDefault();
+
+    })
+
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+ <!-- // find out the cart from the local storage  -->
+
+      console.log("working");
+      if (localStorage.getItem("cart") == null) {
+        var cart = {};
+      } else {
+        cart = JSON.parse(localStorage.getItem("cart"));
+        document.getElementById("cart").innerHTML = Object.keys(cart).length;
+        //      updateCart(cart);
+      }
+
+      <!-- // if the add to cart button is clicked -- increament the cart -->
+
+      $(".cart").click(function () {
+        var idstr = this.id.toString();
+        console.log(idstr);
+        if (cart[idstr] != undefined) {
+          cart[idstr] = cart[idstr] + 1;
+        } else {
+          cart[idstr] = 1;
+        }
+
+        //     updateCart(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        document.getElementById("cart").innerHTML = Object.keys(cart).length;
+      });
+
+      //     function updateCart(cart) {
+      //     console.log("working js of product page");
+      //   for (var item in cart) {
+      //   document.getElementById("div" + item).innerHTML =
+      //   "<button id='minus" +
+      // item +
+      //   "' class='btn btn-primary minus'>-</button><span id='val" +
+      //  item +
+      // " ''>" +
+      //  cart[item] +
+      // " </span><button id='plus" +
+      //            item +
+      //          "' class='btn btn-primary plus'> + </button>";
+      //    }
+      //}
+      // for min max button
+
+      //  $(".divpr").on("click", "button.minus", function () {
+      //  a = this.id.slice(7);
+      //cart["pr" + a] = cart["pr" + a] - 1;
+      //     cart["pr" + a] = Math.max(0, cart["pr" + a]);
+      //   document.getElementById("valpr" + a).innerHTML = cart["pr" + a];
+      // updateCart(cart);
+      //   });
+      // $(".divpr").on("click", "button.plus", function () {
+      // a = this.id.slice(6);
+      //      cart["pr" + a] = cart["pr" + a] + 1;
+      //    document.getElementById("valpr" + a).innerHTML = cart["pr" + a];
+      //  updateCart(cart);
+      //   });
